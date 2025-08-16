@@ -32,7 +32,10 @@ def create_case_list_elem(id, details):
         additional_indicators.append(":material/arrow_split:")
 
     with st.container(horizontal=True):
-        st.button(details["case_title"], key=f"{id}:button", icon=":material/attach_file:", type="primary")
+        if st.button(details["case_title"], key=f"{id}:button", icon=":material/attach_file:", type="primary"):
+            st.session_state['last_interacted_case_id'] = id
+            st.switch_page("pages/case.py")
+
         for ind in additional_indicators:
             st.button("", key=f"{id}:indicator:{ind}", icon=ind, type="tertiary", disabled=True)
 
