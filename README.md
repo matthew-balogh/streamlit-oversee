@@ -1,7 +1,7 @@
 <div align="center">
   <img src="assets/logo_full.png" alt="Oversee Logo" width="300"/>
   <div>
-   <em>Your Data Science lab, at a glance</em>
+   <em>Set sail on data adventures,</br>without losing sight of the harbor.</em>
   </div>
 </div>
 
@@ -9,7 +9,7 @@
 
 ### About Oversee
 
-Oversee provides a convenient workspace to track, document, and manage your Data Science experiments, notes, and results, available both locally and online via Streamlit.
+Oversee provides a convenient workspace to track, document, and manage your Data Science experiments, notes, and results, available both locally and online via *Streamlit*.
 
 ### How to run it on your own machine
 

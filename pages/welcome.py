@@ -7,7 +7,7 @@ st.set_page_config(
 )
 
 welcome_text_html = """
-<span style="font-size: 1.5rem; font-style: italic;">Welcome aboard!</span>
+<div style="text-align: center; font-size: 1.5rem; font-style: italic;">Welcome aboard!</br>Set sail on data adventures, without losing sight of the harbor.</div>
 """
 
 st.html("<div style='margin-bottom: 10rem'></div>")
