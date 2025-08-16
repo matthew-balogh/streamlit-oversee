@@ -1,0 +1,6 @@
+[client]
+showSidebarNavigation = true
+
+[theme]
+primaryColor = "#236bb4ff"
+backgroundColor = "white"
