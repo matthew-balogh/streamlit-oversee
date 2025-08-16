@@ -16,6 +16,7 @@ st.logo(
 pages = [
     st.Page("pages/welcome.py", title="Welcome"),
     st.Page("pages/home.py", title="Home", icon=":material/dashboard:", default=True),
+    st.Page("pages/cases.py", title="Cases", icon=":material/home_storage:"),
 ]
 
 pg = st.navigation(pages)
