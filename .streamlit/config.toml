@@ -1,5 +1,5 @@
 [client]
-showSidebarNavigation = true
+showSidebarNavigation = false
 
 [theme]
 primaryColor = "#236bb4ff"

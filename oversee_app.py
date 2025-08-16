@@ -6,18 +6,29 @@ st.set_page_config(
     layout="wide"
 )
 
-st.logo(
-    "assets/logo_full.png",
-    link="https://streamlit.io/gallery",
-    icon_image="assets/logo.png",
-    size="large"
-)
+main = st.container(horizontal=True)
+navbar = main.container(horizontal_alignment="left", width=150)
+
+placeholder = main.container(width=100)
+placeholder.empty()
+
+panel = main.container()
 
 pages = [
     st.Page("pages/welcome.py", title="Welcome"),
-    st.Page("pages/home.py", title="Home", icon=":material/dashboard:", default=True),
+    st.Page("pages/home.py", title="Harbor", icon=":material/anchor:", default=True),
     st.Page("pages/cases.py", title="Cases", icon=":material/home_storage:"),
 ]
 
-pg = st.navigation(pages)
-pg.run()
+with navbar:
+    with st.container(horizontal=True, horizontal_alignment="center", width=90):
+        st.image("assets/logo.png", width=50)
+
+    st.html("<div style='margin-bottom: 1rem'></div>")
+
+    st.page_link(pages[1], icon=":material/anchor:")
+    st.page_link(pages[2], icon=":material/home_storage:")
+    
+with panel:
+    pg = st.navigation(pages, position="hidden")
+    pg.run()
