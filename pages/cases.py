@@ -4,10 +4,10 @@ import json
 
 DETAILS_FILENAME = "details.json"
 STORAGE_DIRURL = "storage"
-CASES_DIRURL = f"{STORAGE_DIRURL}/cases"
+CASES_DIRURL = f"{STORAGE_DIRURL}/manuscripts"
 
 st.set_page_config(
-    page_title="Cases",
+    page_title="Manuscripts",
     page_icon="assets/logo.png",
     layout="wide"
 )
@@ -32,15 +32,15 @@ def create_case_list_elem(id, details):
         additional_indicators.append(":material/arrow_split:")
 
     with st.container(horizontal=True):
-        if st.button(details["case_title"], key=f"{id}:button", icon=":material/attach_file:", type="primary"):
+        if st.button(details["manuscript_title"], key=f"{id}:button", icon=":material/contract:", type="primary"):
             st.session_state['last_interacted_case_id'] = id
             st.switch_page("pages/case.py")
 
         for ind in additional_indicators:
             st.button("", key=f"{id}:indicator:{ind}", icon=ind, type="tertiary", disabled=True)
 
-
-st.header(":material/home_storage: Cases")
+with st.container(horizontal=True, vertical_alignment="center"):
+    st.header(":material/home_storage: Manuscripts")
 st.html("<div style='margin-bottom: 1rem'></div>")
 
 for case_id in os.listdir(CASES_DIRURL):

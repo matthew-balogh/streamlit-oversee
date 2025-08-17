@@ -1,1 +1,6 @@
 streamlit
+
+# required only for the demo
+pandas
+numpy
+matplotlib

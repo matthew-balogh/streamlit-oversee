@@ -17,8 +17,8 @@ panel = main.container()
 pages = [
     st.Page("pages/welcome.py", title="Welcome"),
     st.Page("pages/home.py", title="Harbor", icon=":material/anchor:", default=True),
-    st.Page("pages/cases.py", title="Cases", icon=":material/home_storage:"),
-    st.Page("pages/case.py", title="Case viewer", icon=":material/attachment:"),
+    st.Page("pages/cases.py", title="Manuscripts", icon=":material/home_storage:"),
+    st.Page("pages/case.py", title="Manuscript viewer", icon=":material/contract:"),
 ]
 
 with navbar:

@@ -5,20 +5,21 @@ import json
 from helpers import is_demo_mode
 from decorators import fallback_to_session_storage_read_in_demo, fallback_to_session_storage_write_in_demo
 from datetime import datetime
-from pathlib import Path
 
 DEMO_MODE = is_demo_mode()
 
 STORAGE_DIRURL = "storage"
-CASES_DIRURL = f"{STORAGE_DIRURL}/cases"
+CASES_DIRURL = f"{STORAGE_DIRURL}/manuscripts"
 
 DETAILS_FILENAME = "details.json"
 LAB_FILENAME = "lab.py"
 NOTES_FILENAME = "notes.md"
 JOTS_FILENAME = "jots.jsonl"
+RESULTS_FILENAME = "results.md"
+FUTURE_DIRECTIONS_FILENAME = "future_directions.md"
 
 st.set_page_config(
-    page_title="Case Viewer",
+    page_title="Manuscript Viewer",
     page_icon="assets/logo.png",
     layout="wide"
 )
@@ -35,11 +36,13 @@ if case_id is None and "last_interacted_case_id" in st.session_state:
 if case_id is None:
     st.switch_page("pages/home.py")
 
-CASE_DIRURL = f"{STORAGE_DIRURL}/cases/{case_id}"
+CASE_DIRURL = f"{STORAGE_DIRURL}/manuscripts/{case_id}"
 DETAILS_FILEPATH = f"{CASE_DIRURL}/{DETAILS_FILENAME}"
 LAB_FILEPATH = f"{CASE_DIRURL}/{LAB_FILENAME}"
 NOTES_FILEPATH = f"{CASE_DIRURL}/{NOTES_FILENAME}"
 JOTS_FILEPATH = f"{CASE_DIRURL}/{JOTS_FILENAME}"
+RESULTS_FILEPATH = f"{CASE_DIRURL}/{RESULTS_FILENAME}"
+FUTURE_DIRECTIONS_FILEPATH = f"{CASE_DIRURL}/{FUTURE_DIRECTIONS_FILENAME}"
 
 def get_case_details():
     case_details = None
@@ -95,8 +98,8 @@ case_details = get_case_details()
 
 with st.container():
     with st.container(horizontal=True, vertical_alignment="center"):
-        st.button("Case:", type="tertiary", icon=":material/attach_file:", disabled=True)
-        st.write(case_details['case_title'])
+        st.button("Manuscript:", type="tertiary", icon=":material/contract:", disabled=True)
+        st.write(case_details['manuscript_title'])
     with st.container(horizontal=True, vertical_alignment="center"):
         st.button("Research Objective:", type="tertiary", icon=":material/lab_research:", disabled=True)
         st.write(case_details['research_objective'])
@@ -107,14 +110,14 @@ with st.container():
                         else st.empty())
     
     if has_results:
-        label_container.info("Results are obtained", icon=":material/lab_panel:")
+        label_container.info("Results are obtained", icon=":material/lab_panel:", width=200)
     
     if has_future_directions:
-        label_container.warning("Future directions stated", icon=":material/arrow_split:")
+        label_container.warning("Future directions stated", icon=":material/arrow_split:", width=225)
 
     option_map = {
-        0: ":material/science: Laboratory",
-        1: ":material/book_5: Research Notes",
+        0: ":material/science: Cabin Laboratory",
+        1: ":material/book_5: Journal",
         2: ":material/lab_panel::material/arrow_split: Results and Future Directions"
     }
 
@@ -150,3 +153,34 @@ with st.container():
         if os.path.exists(JOTS_FILEPATH):
             for jot in reversed(load_jots(JOTS_FILEPATH, case_id)):
                 st.chat_message("user").write(jot["jot"])
+
+    elif selection == 2:
+                col1, col2 = st.columns(spec=[0.55, 0.45])
+
+                with col1:
+                    st.subheader(":material/lab_panel: Results")
+
+                    if case_details["research_result"]:
+                        if os.path.exists(RESULTS_FILEPATH):
+                            with open(RESULTS_FILEPATH, "r") as f:
+                                content = f.read()
+                                f.close()
+                            st.info(content)
+                        else:
+                            st.error("The results are missing")
+                    else:
+                        st.caption("There are no results yet")
+
+                with col2:
+                    st.subheader(":material/arrow_split: Future Directions")
+
+                    if case_details["future_directions"]:
+                        if os.path.exists(FUTURE_DIRECTIONS_FILEPATH):
+                            with open(FUTURE_DIRECTIONS_FILEPATH, "r") as f:
+                                content = f.read()
+                                f.close()
+                            st.warning(content)
+                        else:
+                            st.error("The future directions are missing")
+                    else:
+                        st.caption("There are no future directions yet")
