@@ -9,7 +9,7 @@
 
 ### About Oversee
 
-Oversee provides a convenient workspace to track, document, and manage your Data Science experiments, notes, and results, available both locally and online via *Streamlit*.
+Oversee provides a convenient workspace to track, document, and manage your Data Science experiments, notes, and results, built with *Streamlit*.
 
 ### How to run it on your own machine
 
