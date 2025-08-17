@@ -2,56 +2,26 @@ import streamlit as st
 import os
 import json
 
+from helpers import is_demo_mode
+from decorators import fallback_to_session_storage_read_in_demo, fallback_to_session_storage_write_in_demo
 from datetime import datetime
 from pathlib import Path
+
+DEMO_MODE = is_demo_mode()
+
+STORAGE_DIRURL = "storage"
+CASES_DIRURL = f"{STORAGE_DIRURL}/cases"
 
 DETAILS_FILENAME = "details.json"
 LAB_FILENAME = "lab.py"
 NOTES_FILENAME = "notes.md"
 JOTS_FILENAME = "jots.jsonl"
-STORAGE_DIRURL = "storage"
-CASES_DIRURL = f"{STORAGE_DIRURL}/cases"
 
 st.set_page_config(
     page_title="Case Viewer",
     page_icon="assets/logo.png",
     layout="wide"
 )
-
-def fragment_from_file(filepath: str):
-    with open(filepath) as f:
-        code = f.read()
-
-    def run():
-        exec(code, globals())
-
-    return st.fragment(run)
-
-def get_case_details(id):
-    case_details = None
-    file_path = f"{CASES_DIRURL}/{id}/{DETAILS_FILENAME}"
-
-    if os.path.isfile(file_path):
-        with open(f"{CASES_DIRURL}/{id}/{DETAILS_FILENAME}") as f:
-            case_details = json.load(f)
-            f.close()
-
-    return case_details
-
-def save_note(FILE: str, msg: str):
-    with FILE.open("a", encoding="utf-8") as f:
-        json.dump(
-            {"ts": datetime.now().isoformat(), "msg": msg},
-            f,
-            ensure_ascii=False
-        )
-        f.write("\n")
-
-def load_jots(FILE):
-    if not FILE.exists():
-        return []
-    with FILE.open(encoding="utf-8") as f:
-        return [json.loads(line) for line in f]
 
 case_id = None
 
@@ -66,7 +36,62 @@ if case_id is None:
     st.switch_page("pages/home.py")
 
 CASE_DIRURL = f"{STORAGE_DIRURL}/cases/{case_id}"
-case_details = get_case_details(case_id)
+DETAILS_FILEPATH = f"{CASE_DIRURL}/{DETAILS_FILENAME}"
+LAB_FILEPATH = f"{CASE_DIRURL}/{LAB_FILENAME}"
+NOTES_FILEPATH = f"{CASE_DIRURL}/{NOTES_FILENAME}"
+JOTS_FILEPATH = f"{CASE_DIRURL}/{JOTS_FILENAME}"
+
+def get_case_details():
+    case_details = None
+    filepath = DETAILS_FILEPATH
+
+    if os.path.isfile(filepath):
+        with open(filepath, "r") as f:
+            case_details = json.load(f)
+            f.close()
+
+    return case_details
+
+def get_lab_renderer():
+    with open(LAB_FILEPATH, "r") as f:
+        lab = f.read()
+        f.close()
+
+    def run():
+        exec(lab, globals())
+
+    return st.fragment(run)
+
+def load_notes():
+    notes = None
+    with open(NOTES_FILEPATH, "r") as f:
+        notes = f.read()
+        f.close()
+    return notes
+
+@fallback_to_session_storage_read_in_demo(session_key=f"{case_id}.jots")
+def load_jots():
+    jots = []
+    if os.path.exists(JOTS_FILEPATH):
+        with open(JOTS_FILEPATH, "r") as f:
+            jots = [json.loads(line) for line in f]
+            f.close()
+    return jots
+
+def save_jot(jot: str):
+    entry = {"timestamp": datetime.now().isoformat(), "jot": jot}
+
+    @fallback_to_session_storage_write_in_demo(session_parent_key=f"{case_id}.jots", session_entry_key=entry["timestamp"], entry=entry)
+    def save_jot_entry(entry):
+        with open(JOTS_FILEPATH, "a") as f:
+            json.dump(entry, f)
+            f.write("\n")
+            f.close()
+    
+    save_jot_entry(entry)
+
+
+case_details = get_case_details()
 
 with st.container():
     with st.container(horizontal=True, vertical_alignment="center"):
@@ -101,38 +126,27 @@ with st.container():
         default = 0
     )
 
-    
     if selection == 0:
-        lab_filepath = f"{CASE_DIRURL}/{LAB_FILENAME}"
-
-        if not os.path.exists(lab_filepath):
+        if os.path.exists(LAB_FILEPATH):
+            renderer = get_lab_renderer()
+            renderer()
+        else:
             st.error(f"The '{LAB_FILENAME}' file is missing from storage", icon=":material/dangerous:")
             st.stop()
 
-        lab_fragment = fragment_from_file(lab_filepath)
-        lab_fragment()
-
     elif selection == 1:
-        notes_filepath = f"{CASE_DIRURL}/{NOTES_FILENAME}"
-        jots_filepath = f"{CASE_DIRURL}/{JOTS_FILENAME}"
-
         new_jot = st.chat_input("What to jot down?")
-        if new_jot:
-            save_note(Path(jots_filepath), new_jot)
 
-        if not os.path.exists(notes_filepath):
-            st.error(f"The '{NOTES_FILENAME}' file is missing from storage", icon=":material/dangerous:")
-        else:
+        if os.path.exists(NOTES_FILEPATH):
+            notes = load_notes()
             notes_container = st.empty()
+            notes_container.markdown(notes)
+        else:
+            st.error(f"The '{NOTES_FILENAME}' file is missing from storage", icon=":material/dangerous:")
 
-            def load_notes():
-                with open(notes_filepath, "r") as f:
-                    notes_container.empty()
-                    notes_container.markdown(f.read())
-                    f.close()
+        if new_jot:
+            save_jot(new_jot)
 
-            load_notes()
-
-        jots = load_jots(Path(jots_filepath))
-        for jot in reversed(jots):
-            st.chat_message("user").write(jot["msg"])
+        if os.path.exists(JOTS_FILEPATH):
+            for jot in reversed(load_jots(JOTS_FILEPATH, case_id)):
+                st.chat_message("user").write(jot["jot"])
