@@ -1,0 +1,1 @@
+The **Manhattan distance** of vectors $a(2, 4, 5)$ and $b(5, 1, 9)$ was calculated as $10$.

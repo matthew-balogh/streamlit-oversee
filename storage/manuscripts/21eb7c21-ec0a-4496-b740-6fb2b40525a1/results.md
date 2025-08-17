@@ -1,0 +1,1 @@
+Using `numpy`, the variables were standardized without the need of methods from additional libraries such as `StandardScaler` from `sklearn`.

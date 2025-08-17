@@ -1,0 +1,1 @@
+Investigate other distance metrics such as *Euclidean*, *Chebyshev* or *Minkowski distance* and compare it with the *Manhattan distance*.
