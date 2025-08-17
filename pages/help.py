@@ -6,7 +6,7 @@ tab1, tab2 = st.tabs(["Getting started", "Manuscript indicators"])
 
 with tab1:
     st.warning("Limitation notice", icon=":material/warning:")
-    st.write("While this demo gives you a quick feel for the tool, you can enjoy all its features by cloning the repository and running it locally.")
+    st.write("While this demo gives you a quick feel for the tool, you can enjoy all its features by cloning the repository and running it locally or forking this streamlit app and managing in GitHub Codespaces online.")
     st.write("By doing so, you will be able to directly modify the contents of different elements of a _manuscript_ such as the lab file, notes, results and future directions, along with creating new manuscripts.")
     
     st.write("For the detailed instructions to setup **Oversee**, visit the GitHub repository:")
