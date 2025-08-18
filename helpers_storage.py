@@ -1,0 +1,3 @@
+STORAGE_DIRURL = "storage"
+MANUSCRIPTS_DIRURL = f"{STORAGE_DIRURL}/manuscripts"
+DETAILS_FILENAME = "details.json"

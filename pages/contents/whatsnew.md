@@ -1,3 +1,10 @@
+### Create Manuscripts with ease
+<small>2025.08.19</small>
+
+You can now create new manuscripts by clicking on the **Write new Manuscript** button on the Manuscripts page.
+
+> ⚠️ Warning: To prevent this feature from breaking, do not modify any files in the `_templates` folder.
+
 ### Introducing Vessels
 <small>2025.08.18</small>
 

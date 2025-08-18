@@ -1,0 +1,39 @@
+import os
+import shutil
+import json
+
+from datetime import datetime
+from helpers_storage import MANUSCRIPTS_DIRURL, DETAILS_FILENAME
+
+TEMPLATES_DIRURL = "_templates"
+MANUSCRIPT_TEMPLATE_DIRURL = f"{TEMPLATES_DIRURL}/_manuscript"
+
+def create_manuscript_from_template(manuscript_id, title, objective):
+    frm = MANUSCRIPT_TEMPLATE_DIRURL
+    to = f"{MANUSCRIPTS_DIRURL}/{manuscript_id}"
+
+    if not os.path.exists(frm):
+        print("Cannot copy. The template resource \"{frm}\" does not exist.")
+        return
+
+    if not os.path.exists(to):
+        shutil.copytree(frm, to)
+
+        details_filepath = f"{MANUSCRIPTS_DIRURL}/{manuscript_id}/{DETAILS_FILENAME}"
+        if os.path.exists(details_filepath):
+
+            with open(details_filepath, "r") as f:
+                data = json.load(f)
+                f.close()
+
+            data["manuscript_id"] = str(manuscript_id)
+            data["manuscript_title"] = title
+            data["research_objective"] = objective
+            data["creation_timestamp"] = datetime.now().isoformat()
+
+            with open(details_filepath, "w") as f:
+                json.dump(data, f, indent=2)
+                f.close()
+
+    else:
+        print(f"Cannot copy. The directory \"{to}\" already exists.")

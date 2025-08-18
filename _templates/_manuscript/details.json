@@ -1,6 +1,8 @@
 {
+  "manuscript_id": "_manuscript",
   "manuscript_title": "Template Manuscript",
   "research_objective": "This is the place of research objective",
+  "creation_timestamp": "2025-08-17T00:00:00.946785",
   "research_result": false,
   "future_directions": false
 }
