@@ -77,10 +77,6 @@ with tab_intro:
         time.sleep(1.5)
 
     with st.chat_message("assistant"):
-        def set_tab_to_getting_started():
-            global selection
-            selection = 2
-
         with st.status("Creating your Oversee project...", expanded=True) as status:
             s = st.empty()
             s.write("⏳ Cloning `streamlit-oversee` from GitHub")

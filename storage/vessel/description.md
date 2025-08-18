@@ -1,1 +1,1 @@
-This is the description of your active vessel.
+This is the description of your active project.

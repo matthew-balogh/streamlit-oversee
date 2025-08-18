@@ -6,7 +6,10 @@ STORAGE_DIRURL = "storage"
 VESSEL_DIRURL = f"{STORAGE_DIRURL}/vessel"
 
 def is_demo_mode() -> bool:
-    return (st.secrets.get("demo_mode", False) == True)
+    if os.path.exists(".streamlit/secrets.toml"):
+        return (st.secrets.get("demo_mode", False) == True)
+    else:
+        return False
 
 def get_demo_banner_html():
     return """
