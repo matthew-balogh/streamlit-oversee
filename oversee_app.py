@@ -1,6 +1,6 @@
 import streamlit as st
 
-from helpers import get_demo_banner_html, get_active_vessel_label_html
+from helpers import is_demo_mode, get_demo_banner_html, get_active_vessel_label_html
 
 PRIMARY_COLOR = st.get_option('theme.primaryColor')
 
@@ -52,7 +52,8 @@ with navbar:
     st.page_link(pages[3], icon=":material/home_storage:")
     st.page_link(pages[5], icon=":material/help:")
 
-navbar.markdown(get_demo_banner_html(), unsafe_allow_html=True)
+if is_demo_mode():
+    navbar.markdown(get_demo_banner_html(), unsafe_allow_html=True)
     
 with panel:
     pg = st.navigation(pages, position="hidden")
