@@ -143,7 +143,7 @@ with st.container():
         if os.path.exists(NOTES_FILEPATH):
             notes = load_notes()
             notes_container = st.empty()
-            notes_container.markdown(notes)
+            notes_container.markdown(notes, unsafe_allow_html=True)
         else:
             st.error(f"The '{NOTES_FILENAME}' file is missing from storage", icon=":material/dangerous:")
 
