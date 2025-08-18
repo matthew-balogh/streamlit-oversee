@@ -46,7 +46,7 @@ There are two ways to get started with Oversee: either by running it on:
    streamlit run oversee_app.py
    ```
 
-4. User your favorite browser and editor to view and make changes
+4. Use your favorite browser and editor to view and make changes
 
 ### Running the app on Streamlit Cloud
 
@@ -57,7 +57,7 @@ There are two ways to get started with Oversee: either by running it on:
 
    > ℹ️ Streamlit automatically installs the requirements and starts your app.
 
-3. User your favorite device and browser to interact with your Oversee workspace
+3. Use your favorite device and browser to interact with your Oversee workspace
 4. Use *Codespaces* to make content changes
 
    Click on the edit button in the top right corner. Streamlit will open a Codespace to access the file structure and to edit contents of your files.

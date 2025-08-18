@@ -19,4 +19,4 @@
    streamlit run oversee_app.py
    ```
 
-4. User your favorite browser and editor to view and make changes
+4. Use your favorite browser and editor to view and make changes
