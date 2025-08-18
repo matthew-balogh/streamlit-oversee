@@ -1,6 +1,8 @@
 {
+  "manuscript_id": "21eb7c21-ec0a-4496-b740-6fb2b40525a1",
   "manuscript_title": "Example Manuscript 2",
   "research_objective": "Standardize the given dataset with numpy",
+  "creation_timestamp": "2025-08-17T00:05:00.946785",
   "research_result": true,
   "future_directions": false
 }

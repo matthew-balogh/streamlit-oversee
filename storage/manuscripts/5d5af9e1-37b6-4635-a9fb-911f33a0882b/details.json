@@ -1,6 +1,8 @@
 {
+  "manuscript_id": "5d5af9e1-37b6-4635-a9fb-911f33a0882b",
   "manuscript_title": "Example Manuscript 1",
   "research_objective": "Calculate the Manhattan distance of two vectors",
+  "creation_timestamp": "2025-08-17T00:00:00.946785",
   "research_result": true,
   "future_directions": true
 }
