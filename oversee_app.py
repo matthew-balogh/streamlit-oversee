@@ -3,6 +3,7 @@ import streamlit as st
 from helpers import is_demo_mode, get_demo_banner_html, get_active_vessel_label_html
 
 PRIMARY_COLOR = st.get_option('theme.primaryColor')
+DEMO_MODE = is_demo_mode()
 
 st.set_page_config(
     page_title="Oversee",
@@ -19,8 +20,9 @@ placeholder.empty()
 panel = main.container()
 
 pages = [
-    st.Page("pages/welcome.py", title="Welcome"),
-    st.Page("pages/home.py", title="Harbor", icon=":material/anchor:", default=True),
+    st.Page("pages/landing.py", title="Come Aboard!", default=DEMO_MODE),
+
+    st.Page("pages/harbor.py", title="Harbor", icon=":material/anchor:", default=(not DEMO_MODE)),
     st.Page("pages/vessel.py", title="Vessel", icon=":material/sailing:"),
 
     st.Page("pages/cases.py", title="Manuscripts", icon=":material/home_storage:"),
@@ -33,6 +35,9 @@ with navbar:
         st.image("assets/logo.png", width=50)
 
     st.html("<div style='margin-bottom: 1rem'></div>")
+
+    if DEMO_MODE:
+        st.page_link(pages[0], icon=":material/hail:")
 
     st.page_link(pages[1], icon=":material/anchor:")
     st.page_link(pages[2], icon=":material/sailing:")
@@ -52,7 +57,7 @@ with navbar:
     st.page_link(pages[3], icon=":material/home_storage:")
     st.page_link(pages[5], icon=":material/help:")
 
-if is_demo_mode():
+if DEMO_MODE:
     navbar.markdown(get_demo_banner_html(), unsafe_allow_html=True)
     
 with panel:

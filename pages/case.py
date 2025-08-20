@@ -34,7 +34,7 @@ if case_id is None and "last_interacted_case_id" in st.session_state:
     st.query_params["case_id"] = case_id
 
 if case_id is None:
-    st.switch_page("pages/home.py")
+    st.switch_page("pages/cases.py")
 
 CASE_DIRURL = f"{STORAGE_DIRURL}/manuscripts/{case_id}"
 DETAILS_FILEPATH = f"{CASE_DIRURL}/{DETAILS_FILENAME}"
@@ -95,6 +95,9 @@ def save_jot(jot: str):
 
 
 case_details = get_case_details()
+
+if case_details is None:
+    st.switch_page("pages/cases.py")
 
 with st.container():
     with st.container(horizontal=True, vertical_alignment="center"):
