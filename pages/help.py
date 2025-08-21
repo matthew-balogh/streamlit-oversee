@@ -51,6 +51,7 @@ with tab_getting_started:
         st.link_button("Go to repository", "https://github.com/matthew-balogh/streamlit-oversee", type="primary", icon=":material/folder_data:")
 
     if selection == 1:
+        st.warning(icon=":material/warning:", body="You can keep separate Oversee projects on your computer, but in the cloud, forking only gives you one copy. For now, if you want to keep your projects isolated, we recommend starting on your machine.")
         if os.path.exists(GETTING_STARTED_ONLINE_FILEPATH):
             with open(GETTING_STARTED_ONLINE_FILEPATH, "r") as f:
                 content = f.read()
