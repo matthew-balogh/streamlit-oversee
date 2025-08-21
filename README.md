@@ -28,7 +28,7 @@ There are two ways to get started with Oversee: either by running it on:
 1. Clone the repository
 
    ```
-   git clone https://github.com/matthew-balogh/streamlit-oversee.git
+   git clone https://github.com/matthew-balogh/streamlit-oversee.git oversee-my-data-science-project
    ```
 
    > 💡 Tip: You can quickly create a copy in your own GitHub account by clicking the `Use this template` button above.
@@ -36,7 +36,7 @@ There are two ways to get started with Oversee: either by running it on:
 2. Install the requirements
 
    ```
-   cd streamlit-oversee
+   cd oversee-my-data-science-project
    pip install -r requirements.txt
    ```
 

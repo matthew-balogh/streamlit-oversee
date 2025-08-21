@@ -25,68 +25,34 @@ intro_html = """
 </span>
 """
 
-fetch_html = """
-<style>
-    #landing-fetch-container {
-        display: flex;
-        flex-direction: column;
-        margin-top: .5rem;
-        color: #8195ac;
-
-        .highlighted {
-            color: #416793;
-            font-weight: 500;
-        }
-
-        .highlighted-2 {
-            color: #b098c4;
-            font-weight: 400;
-        }
-
-        .fetch-caption {
-            color: #C6CAD0 !important;
-            font-size: 2rem;
-            margin-top: 2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .fetch-block {
-            font-size: 1.5rem;
-
-            span:not(:first-child) {
-                display: block;
-                margin-left: 4rem;
-            }
-        }
-    }
-</style>
-
-<div id="landing-fetch-container">
-    <span class="fetch-caption">Fetch your Vessel...</span>
-    <div class="fetch-block">
-        <span>$  clone <span class="highlighted">streamlit-oversee</span></span>
-        <span>as <span class="highlighted">oversee-my-data-science-project</span></span>
-        <span class="highlighted-2">--save-to-my-github</span>
-    </div>
-    <div class="fetch-block">
-        <span>$  run <span class="highlighted">oversee-my-data-science-project</span></span></span>
-    </div>
-    <div class="fetch-block">
-        <span class="highlighted-2">🎈🎉  App started at <u>http://localhost:8501</u></span>
-    </div>
-    <span class="fetch-caption">Start Overseeing your work...</span>
-</div>
-"""
-
-col1, col2 = st.columns([1, 10])
+col1, col2, col3 = st.columns([1, 10, 1])
 
 with col2:
     with st.container(horizontal=True, horizontal_alignment="left"):
         st.image("assets/logo_image_full_wo_padding.png")
 
     st.markdown(intro_html, width=600, unsafe_allow_html=True)
-    st.markdown(fetch_html, width=600, unsafe_allow_html=True)
+    st.container(height=25, border=False)
 
-    st.link_button("Get started here", type="primary", icon=":material/sailing:", url="/help")
+    c1, c2 = st.columns([3, 2], gap="large")
+
+    with c1:
+        st.header("Get started on your machine", width=300)
+        st.container(height=5, border=False)
+        st.code("git clone https://github.com/matthew-balogh/streamlit-oversee.git oversee-my-data-science-project      ")
+        st.code("""cd oversee-my-data-science-project
+pip install -r requirements.txt
+streamlit run oversee_app.py""")
+    
+    with c2:
+        st.header("Get started in the Cloud", width=300)
+        st.container(height=5, border=False)
+        st.link_button(icon=":material/cloud:", label="Fork the app in Streamlit Cloud*", url="https://share.streamlit.io/create-from-fork?owner=matthew-balogh&repository=streamlit-oversee&branch=main&mainModule=oversee_app.py&appId=e533f03e-7091-49cb-aa90-bd47b22c29cc", type="primary")
+
+    st.container(height=10, border=False)
+    st.subheader(":balloon::tada: That's it! You are ready to *oversee* your Data Science project...")
+
+    st.container(height=25, border=False)
+    st.caption("\*  You can keep separate Oversee projects on your computer, but in the cloud, forking only gives you one copy. For now, if you want to keep your projects isolated, we recommend starting on your machine.")
 
 st.image("assets/waves_background.png", use_container_width=True)
