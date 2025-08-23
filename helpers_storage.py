@@ -1,3 +1,8 @@
 STORAGE_DIRURL = "storage"
 MANUSCRIPTS_DIRURL = f"{STORAGE_DIRURL}/manuscripts"
+
 DETAILS_FILENAME = "details.json"
+DIVE_FILENAME = "dive.json"
+DIVES_FILENAME = "dives.jsonl"
+
+DIVE_FILEPATH = f"{STORAGE_DIRURL}/{DIVE_FILENAME}"

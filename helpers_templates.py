@@ -8,7 +8,7 @@ from helpers_storage import MANUSCRIPTS_DIRURL, DETAILS_FILENAME
 TEMPLATES_DIRURL = "_templates"
 MANUSCRIPT_TEMPLATE_DIRURL = f"{TEMPLATES_DIRURL}/_manuscript"
 
-def create_manuscript_from_template(manuscript_id, title, objective):
+def create_manuscript_from_template(manuscript_id: str, title: str, objective: str):
     frm = MANUSCRIPT_TEMPLATE_DIRURL
     to = f"{MANUSCRIPTS_DIRURL}/{manuscript_id}"
 
@@ -26,7 +26,7 @@ def create_manuscript_from_template(manuscript_id, title, objective):
                 data = json.load(f)
                 f.close()
 
-            data["manuscript_id"] = str(manuscript_id)
+            data["manuscript_id"] = manuscript_id
             data["manuscript_title"] = title
             data["research_objective"] = objective
             data["creation_timestamp"] = datetime.now().isoformat()

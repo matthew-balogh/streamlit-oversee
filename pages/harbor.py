@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.header("Welcome to the Harbor!")
+st.header(":material/foundation: Welcome to the Harbor!")
 
 st.info("The harbor shows your vessels, that is your existing projects.", icon=":material/foundation:")
 st.warning("For now, your harbor is limited to a single vessel. For different projects, we recommend to clone a new Oversee repository and name it accordingly.", icon=":material/exclamation:")

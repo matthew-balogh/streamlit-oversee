@@ -1,6 +1,11 @@
 import streamlit as st
+import os
+import json
 
-from helpers import is_demo_mode, get_demo_banner_html, get_active_vessel_label_html
+from streamlit_lottie import st_lottie
+
+from services.dives import save_dive, load_dive
+from helpers import is_demo_mode, get_demo_banner_html, get_active_vessel_label_html, get_demo_mode_toast
 
 PRIMARY_COLOR = st.get_option('theme.primaryColor')
 DEMO_MODE = is_demo_mode()
@@ -10,6 +15,40 @@ st.set_page_config(
     page_icon="assets/logo.png",
     layout="wide"
 )
+
+@st.dialog(" ", width="small")
+def open_anchor_down_dialog():
+    c1, c2, c3 = st.columns([1, 10, 1])
+
+    with c2:
+        with st.container(horizontal_alignment="center"):
+            st.html("""<span style="color: grey; font-size: 2rem; opacity: 0.5;">You are anchored down,<br>take a moment to think...</span>""", width="content")
+
+            if os.path.exists("assets/pulse.json"):
+                with open("assets/pulse.json", "r") as f:
+                    data = json.load(f)
+                    f.close()
+
+                st_lottie(data, quality="high")
+
+@st.dialog(" ", width='large')
+def open_dive_dialog():
+    col1, col2, col3 = st.columns([.5, 30, .5], gap=None)
+
+    with col2:
+        st.html("""<span style="color: grey; font-size: 1.5rem; opacity: 0.9;">Vessel offshore?!<br>Don’t worry where to sail, just dive in and get aboard...</span>""", width="content")
+        text = st.text_area("", placeholder="Start with your thoughts here...", label_visibility="collapsed", height="stretch")
+
+        with st.container( horizontal_alignment="right"):
+            if st.button("Dive in!", type="primary"):
+                if DEMO_MODE:
+                    get_demo_mode_toast()
+                else:
+                    if text:
+                        save_dive(text)
+                        st.switch_page("pages/recent_dive.py")
+                    else:
+                        st.toast("Incomplete form!")
 
 main = st.container(horizontal=True)
 navbar = main.container(horizontal_alignment="left", width=150)
@@ -22,8 +61,9 @@ panel = main.container()
 pages = [
     st.Page("pages/landing.py", title="Come Aboard!", default=DEMO_MODE),
 
-    st.Page("pages/harbor.py", title="Harbor", icon=":material/anchor:", default=(not DEMO_MODE)),
+    st.Page("pages/harbor.py", title="Harbor", icon=":material/foundation:", default=(not DEMO_MODE)),
     st.Page("pages/vessel.py", title="Vessel", icon=":material/sailing:"),
+    st.Page("pages/recent_dive.py", url_path="recent-dive", title="Recent dive", icon=":material/pool:"),
 
     st.Page("pages/cases.py", title="Manuscripts", icon=":material/home_storage:"),
     st.Page("pages/case.py", title="Manuscript viewer", icon=":material/contract:"),
@@ -39,8 +79,9 @@ with navbar:
     if DEMO_MODE:
         st.page_link(pages[0], icon=":material/hail:")
 
-    st.page_link(pages[1], icon=":material/anchor:")
+    st.page_link(pages[1], icon=":material/foundation:")
     st.page_link(pages[2], icon=":material/sailing:")
+
     additional_styling = f"""
         font-size: 12px;
         padding: 0;
@@ -54,8 +95,18 @@ with navbar:
     """
     st.html(get_active_vessel_label_html(id="navbar-vessel-label", styling=additional_styling))
 
-    st.page_link(pages[3], icon=":material/home_storage:")
-    st.page_link(pages[5], icon=":material/help:")
+    st.page_link(pages[4], icon=":material/home_storage:")
+    st.page_link(pages[6], icon=":material/help:")
+
+    st.container(height=5, border=False)
+
+    dive = load_dive()
+    if dive is None:
+        st.button("Dive!", type="primary", icon=":material/scuba_diving:", help="Just start!", on_click=open_dive_dialog)
+    else:
+        st.page_link(pages[3], icon=":material/pool:")
+
+    st.button("Anchor down!", type="primary", icon=":material/anchor:", help="Take a moment to think!", on_click=open_anchor_down_dialog)
 
 if DEMO_MODE:
     navbar.markdown(get_demo_banner_html(), unsafe_allow_html=True)

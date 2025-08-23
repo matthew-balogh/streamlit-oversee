@@ -1,4 +1,5 @@
 streamlit
+streamlit-lottie
 
 # required only for the demo
 pandas
