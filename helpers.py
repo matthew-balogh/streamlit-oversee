@@ -5,6 +5,8 @@ import json
 STORAGE_DIRURL = "storage"
 VESSEL_DIRURL = f"{STORAGE_DIRURL}/vessel"
 
+DEMO_MODE_MESSAGE = "Not available in demo mode!"
+
 def is_demo_mode() -> bool:
     if os.path.exists(".streamlit/secrets.toml"):
         return (st.secrets.get("demo_mode", False) == True)
@@ -34,6 +36,9 @@ def get_demo_banner_html():
 
 <a href="/help" target="_self" id="oversee-demo-banner"><b>Demo mode:</b> Visit <u>Help</u> for getting started</a>
 """
+
+def get_demo_mode_toast():
+    return st.toast(DEMO_MODE_MESSAGE, icon=":material/no_sim:")
 
 PRIMARY_COLOR = st.get_option('theme.primaryColor')
 

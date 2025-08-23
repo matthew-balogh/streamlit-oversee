@@ -3,6 +3,8 @@ import os
 import json
 
 from helpers import is_demo_mode
+from helpers_storage import DIVES_FILENAME
+
 from decorators import fallback_to_session_storage_read_in_demo, fallback_to_session_storage_write_in_demo
 from datetime import datetime
 
@@ -38,6 +40,7 @@ if case_id is None:
 
 CASE_DIRURL = f"{STORAGE_DIRURL}/manuscripts/{case_id}"
 DETAILS_FILEPATH = f"{CASE_DIRURL}/{DETAILS_FILENAME}"
+DIVES_FILEPATH = f"{CASE_DIRURL}/{DIVES_FILENAME}"
 LAB_FILEPATH = f"{CASE_DIRURL}/{LAB_FILENAME}"
 NOTES_FILEPATH = f"{CASE_DIRURL}/{NOTES_FILENAME}"
 JOTS_FILEPATH = f"{CASE_DIRURL}/{JOTS_FILENAME}"
@@ -71,6 +74,14 @@ def load_notes():
         notes = f.read()
         f.close()
     return notes
+
+def load_dives():
+    dives = []
+    if os.path.exists(DIVES_FILEPATH):
+        with open(DIVES_FILEPATH, "r") as f:
+            dives = [json.loads(line) for line in f]
+            f.close()
+    return dives
 
 @fallback_to_session_storage_read_in_demo(session_key=f"{case_id}.jots")
 def load_jots():
@@ -117,6 +128,10 @@ with st.container():
     
     if has_future_directions:
         label_container.warning("Future directions stated", icon=":material/arrow_split:", width=225)
+
+    dives = load_dives()
+    for dive in dives:
+        st.info(dive.get("text"), icon=":material/scuba_diving:")
 
     option_map = {
         0: ":material/science: Cabin Laboratory",
