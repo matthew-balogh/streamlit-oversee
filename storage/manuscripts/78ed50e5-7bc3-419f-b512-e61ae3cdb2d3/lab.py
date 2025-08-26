@@ -1,7 +1,7 @@
 import streamlit as st
 
 template_md = """
-To make changes in your manuscript, please visit the `storage/manuscripts/<OVERSEE_MANUSCRIPT_ID_PLACEHOLDER>` folder.
+To make changes in your manuscript, please visit the `storage/manuscripts/78ed50e5‑7bc3‑419f‑b512‑e61ae3cdb2d3` folder.
 You can always access the identifier of your manuscripts when hovering over their **:material/contract: Manuscript** label above.
 
 Your newly opened manuscript has the following structure:

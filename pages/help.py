@@ -10,7 +10,7 @@ GETTING_STARTED_ONLINE_FILEPATH = f"{GETTING_STARTED_DIRURL}/online.md"
 
 st.subheader(":material/help: Help")
 
-tab_intro, tab_getting_started, tab_updates, tab_indicators = st.tabs(["I want to Oversee...", "Getting started", "What's new on the Horizon", "Manuscript indicators"])
+tab_intro, tab_getting_started, tab_updates = st.tabs(["I want to Oversee...", "Getting started", "What's new on the Horizon"])
 
 with tab_updates:
     if os.path.exists(WHATSNEW_FILEPATH):
@@ -18,14 +18,6 @@ with tab_updates:
             content = f.read()
             f.close()
         st.markdown(content, unsafe_allow_html=True)
-
-with tab_indicators:
-    with st.container(horizontal=True, vertical_alignment="center"):
-        st.button("", key="help:indicator:research_results", icon=":material/lab_panel:", type="tertiary", disabled=True)
-        st.write("This icon indicates that research results have been obtained for the manuscript.")
-    with st.container(horizontal=True, vertical_alignment="center"):
-        st.button("", key="help:indicator:future_directions", icon=":material/arrow_split:", type="tertiary", disabled=True)
-        st.write("This icon indicates that future directions have been stated for the manuscript.")
 
 with tab_getting_started:
     option_map = {
