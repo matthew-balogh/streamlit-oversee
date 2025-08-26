@@ -1,8 +1,9 @@
 import streamlit as st
 import os
 
-from services.cases import new_case, get_case
-from helpers import is_demo_mode, get_demo_mode_toast
+from oversee.services.cases import new_case, get_case
+from oversee.utilities.helpers import is_demo_mode, get_demo_mode_toast
+from oversee.utilities.helpers_storage import ASSETS_DIRURL
 
 DEMO_MODE = is_demo_mode()
 
@@ -12,7 +13,7 @@ CASES_DIRURL = f"{STORAGE_DIRURL}/manuscripts"
 
 st.set_page_config(
     page_title="Manuscripts",
-    page_icon="assets/logo.png",
+    page_icon=f"{ASSETS_DIRURL}/logo.png",
     layout="wide"
 )
 
@@ -28,7 +29,7 @@ def create_case_list_elem(details):
     with st.container(horizontal=True):
         if st.button(details["manuscript_title"], key=f"{id}:button", icon=":material/contract:", type="primary"):
             st.session_state['last_interacted_case_id'] = id
-            st.switch_page("pages/case.py")
+            st.switch_page("oversee/pages/case.py")
 
         for ind in additional_indicators:
             st.button("", key=f"{id}:indicator:{ind}", icon=ind, type="tertiary", disabled=True)

@@ -1,7 +1,7 @@
 import streamlit as st
 import os
 
-from helpers import get_active_vessel_label_html
+from oversee.utilities.helpers import get_active_vessel_label_html
 
 STORAGE_DIRURL = "storage"
 VESSEL_DIRURL = f"{STORAGE_DIRURL}/vessel"

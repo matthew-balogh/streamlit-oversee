@@ -1,14 +1,14 @@
 import streamlit as st
 import os
 
-from services.dives import load_dive, delete_dive, record_dive
-from services.cases import new_case, get_case
+from oversee.services.dives import load_dive, delete_dive, record_dive
+from oversee.services.cases import new_case, get_case
 
-from helpers_storage import STORAGE_DIRURL, DIVES_FILENAME, MANUSCRIPTS_DIRURL
+from oversee.utilities.helpers_storage import ASSETS_DIRURL, STORAGE_DIRURL, DIVES_FILENAME, MANUSCRIPTS_DIRURL
 
 st.set_page_config(
     page_title="Your recent dive...",
-    page_icon="assets/logo.png",
+    page_icon=f"{ASSETS_DIRURL}/logo.png",
     layout="wide"
 )
 
@@ -28,7 +28,7 @@ def new_case_dialog(dive):
                     case_id = new_case(manuscript_title, research_objective)
                     record_dive(f"{STORAGE_DIRURL}/manuscripts/{case_id}/{DIVES_FILENAME}", dive)
                     delete_dive()
-                    st.switch_page("pages/cases.py")
+                    st.switch_page("oversee/pages/cases.py")
                 else:
                     st.toast("Incomplete form!")
 
@@ -56,7 +56,7 @@ def attach_to_case_dialog(dive):
             case_id = selection["manuscript_id"]
             record_dive(f"{STORAGE_DIRURL}/manuscripts/{case_id}/{DIVES_FILENAME}", dive)
             delete_dive()
-            st.switch_page("pages/cases.py")
+            st.switch_page("oversee/pages/cases.py")
 
 @st.dialog("Return to shore?")
 def dismiss_dive_dialog():
@@ -68,7 +68,7 @@ def dismiss_dive_dialog():
 
         if dismiss:
             delete_dive()
-            st.switch_page("pages/harbor.py")
+            st.switch_page("oversee/pages/harbor.py")
         
         if back:
             st.rerun()

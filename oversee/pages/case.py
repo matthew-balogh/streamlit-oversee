@@ -2,17 +2,17 @@ import streamlit as st
 import os
 import json
 
-from helpers import is_demo_mode
-from helpers_storage import DIVES_FILENAME, DETAILS_FILENAME, LAB_FILENAME, STORAGE_DIRURL, NOTES_FILENAME, JOTS_FILENAME, RESULTS_FILENAME, FUTURE_DIRECTIONS_FILENAME
+from oversee.utilities.helpers import is_demo_mode
+from oversee.utilities.helpers_storage import ASSETS_DIRURL, DIVES_FILENAME, DETAILS_FILENAME, LAB_FILENAME, STORAGE_DIRURL, NOTES_FILENAME, JOTS_FILENAME, RESULTS_FILENAME, FUTURE_DIRECTIONS_FILENAME
 
-from decorators import fallback_to_session_storage_read_in_demo, fallback_to_session_storage_write_in_demo
+from oversee.utilities.decorators import fallback_to_session_storage_read_in_demo, fallback_to_session_storage_write_in_demo
 from datetime import datetime
 
 DEMO_MODE = is_demo_mode()
 
 st.set_page_config(
     page_title="Manuscript Viewer",
-    page_icon="assets/logo.png",
+    page_icon=f"{ASSETS_DIRURL}/logo.png",
     layout="wide"
 )
 
@@ -26,7 +26,7 @@ if case_id is None and "last_interacted_case_id" in st.session_state:
     st.query_params["case_id"] = case_id
 
 if case_id is None:
-    st.switch_page("pages/cases.py")
+    st.switch_page("oversee/pages/cases.py")
 
 CASE_DIRURL = f"{STORAGE_DIRURL}/manuscripts/{case_id}"
 DETAILS_FILEPATH = f"{CASE_DIRURL}/{DETAILS_FILENAME}"
@@ -98,7 +98,7 @@ def save_jot(jot: str):
 case_details = get_case_details()
 
 if case_details is None:
-    st.switch_page("pages/cases.py")
+    st.switch_page("oversee/pages/cases.py")
 
 with st.container():
     with st.container(horizontal=True, vertical_alignment="center"):

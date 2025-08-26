@@ -1,7 +1,7 @@
 import streamlit as st
 
 from functools import wraps
-from helpers import is_demo_mode
+from oversee.utilities.helpers import is_demo_mode
 
 def skip_if_demo(func):
     @wraps(func)
