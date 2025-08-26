@@ -3,9 +3,9 @@ import shutil
 import json
 
 from datetime import datetime
-from helpers_storage import MANUSCRIPTS_DIRURL, DETAILS_FILENAME, LAB_FILENAME
+from oversee.utilities.helpers_storage import APP_DIRURL, MANUSCRIPTS_DIRURL, DETAILS_FILENAME, LAB_FILENAME
 
-TEMPLATES_DIRURL = "_templates"
+TEMPLATES_DIRURL = f"{APP_DIRURL}/_templates"
 MANUSCRIPT_TEMPLATE_DIRURL = f"{TEMPLATES_DIRURL}/_manuscript"
 
 MANUSCRIPT_ID_PLACEHOLDER = "<OVERSEE_MANUSCRIPT_ID_PLACEHOLDER>"

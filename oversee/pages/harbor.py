@@ -1,6 +1,6 @@
 import streamlit as st
 
-from helpers import get_vessel_title
+from oversee.utilities.helpers import get_vessel_title
 
 st.header(":material/foundation: Welcome to the Harbor!")
 st.warning("For now, your harbor is limited to a single vessel. For different projects, we recommend to clone a new Oversee repository and name it accordingly.", icon=":material/warning:")
@@ -15,7 +15,7 @@ with st.container(horizontal=True, vertical_alignment="top"):
 
     with col1:
         st.text("├┄┬┄┬┬┬┬")
-        st.page_link("pages/vessel.py", label=vessel_title, icon=":material/sailing:")
+        st.page_link("oversee/pages/vessel.py", label=vessel_title, icon=":material/sailing:")
         st.text("├┴┄┴")
         
     with col2:

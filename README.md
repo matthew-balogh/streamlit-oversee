@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/logo_wide.png" alt="Oversee Logo" width="300"/>
+  <img src="oversee/assets/logo_wide.png" alt="Oversee Logo" width="300"/>
   <div>
    <em>Set sail on data adventures,</br>without losing sight of the harbor</em>
   </div>

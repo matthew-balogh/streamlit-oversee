@@ -2,7 +2,7 @@ import os
 import json
 
 from datetime import datetime
-from helpers_storage import DIVE_FILEPATH
+from oversee.utilities.helpers_storage import DIVE_FILEPATH
 
 def load_dive():
     if os.path.exists(DIVE_FILEPATH):

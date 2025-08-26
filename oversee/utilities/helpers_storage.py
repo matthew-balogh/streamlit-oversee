@@ -1,3 +1,6 @@
+APP_DIRURL = "oversee"
+ASSETS_DIRURL = f"{APP_DIRURL}/assets"
+
 STORAGE_DIRURL = "storage"
 MANUSCRIPTS_DIRURL = f"{STORAGE_DIRURL}/manuscripts"
 

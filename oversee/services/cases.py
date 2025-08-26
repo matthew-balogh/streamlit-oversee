@@ -2,9 +2,9 @@ import os
 import json
 import uuid
 
-from decorators import skip_if_demo
-from helpers_templates import create_manuscript_from_template
-from helpers_storage import MANUSCRIPTS_DIRURL, DETAILS_FILENAME
+from oversee.utilities.decorators import skip_if_demo
+from oversee.utilities.helpers_templates import create_manuscript_from_template
+from oversee.utilities.helpers_storage import MANUSCRIPTS_DIRURL, DETAILS_FILENAME
 
 @skip_if_demo
 def new_case(manuscript_title: str, research_objective: str):

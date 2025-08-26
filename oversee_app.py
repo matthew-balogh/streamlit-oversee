@@ -4,15 +4,16 @@ import json
 
 from streamlit_lottie import st_lottie
 
-from services.dives import save_dive, load_dive
-from helpers import is_demo_mode, get_demo_banner_html, get_active_vessel_label_html, get_demo_mode_toast
+from oversee.services.dives import save_dive, load_dive
+from oversee.utilities.helpers_storage import ASSETS_DIRURL
+from oversee.utilities.helpers import is_demo_mode, get_demo_banner_html, get_active_vessel_label_html, get_demo_mode_toast
 
 PRIMARY_COLOR = st.get_option('theme.primaryColor')
 DEMO_MODE = is_demo_mode()
 
 st.set_page_config(
     page_title="Oversee",
-    page_icon="assets/logo.png",
+    page_icon=f"{ASSETS_DIRURL}/logo.png",
     layout="wide"
 )
 
@@ -24,8 +25,8 @@ def open_anchor_down_dialog():
         with st.container(horizontal_alignment="center"):
             st.html("""<span style="color: grey; font-size: 2rem; opacity: 0.5;">You are anchored down,<br>take a moment to think...</span>""", width="content")
 
-            if os.path.exists("assets/pulse.json"):
-                with open("assets/pulse.json", "r") as f:
+            if os.path.exists(f"{ASSETS_DIRURL}/pulse.json"):
+                with open(f"{ASSETS_DIRURL}/pulse.json", "r") as f:
                     data = json.load(f)
                     f.close()
 
@@ -46,7 +47,7 @@ def open_dive_dialog():
                 else:
                     if text:
                         save_dive(text)
-                        st.switch_page("pages/recent_dive.py")
+                        st.switch_page("oversee/pages/recent_dive.py")
                     else:
                         st.toast("Incomplete form!")
 
@@ -59,20 +60,20 @@ placeholder.empty()
 panel = main.container()
 
 pages = [
-    st.Page("pages/landing.py", title="Come Aboard!", default=DEMO_MODE),
+    st.Page("oversee/pages/landing.py", title="Come Aboard!", default=DEMO_MODE),
 
-    st.Page("pages/harbor.py", title="Harbor", icon=":material/foundation:", default=(not DEMO_MODE)),
-    st.Page("pages/vessel.py", title="Vessel", icon=":material/sailing:"),
-    st.Page("pages/recent_dive.py", url_path="recent-dive", title="Recent dive", icon=":material/pool:"),
+    st.Page("oversee/pages/harbor.py", title="Harbor", icon=":material/foundation:", default=(not DEMO_MODE)),
+    st.Page("oversee/pages/vessel.py", title="Vessel", icon=":material/sailing:"),
+    st.Page("oversee/pages/recent_dive.py", url_path="recent-dive", title="Recent dive", icon=":material/pool:"),
 
-    st.Page("pages/cases.py", title="Manuscripts", icon=":material/home_storage:"),
-    st.Page("pages/case.py", title="Manuscript viewer", icon=":material/contract:"),
-    st.Page("pages/help.py", title="Help", icon=":material/help:")
+    st.Page("oversee/pages/cases.py", title="Manuscripts", icon=":material/home_storage:"),
+    st.Page("oversee/pages/case.py", title="Manuscript viewer", icon=":material/contract:"),
+    st.Page("oversee/pages/help.py", title="Help", icon=":material/help:")
 ]
 
 with navbar:
     with st.container(horizontal=True, horizontal_alignment="center", width=90):
-        st.image("assets/logo.png", width=50)
+        st.image(f"{ASSETS_DIRURL}/logo.png", width=50)
 
     st.html("<div style='margin-bottom: 1rem'></div>")
 

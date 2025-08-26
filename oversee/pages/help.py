@@ -2,9 +2,9 @@ import streamlit as st
 import os
 import time
 
-WHATSNEW_FILEPATH = "pages/contents/whatsnew.md"
+WHATSNEW_FILEPATH = "oversee/pages/contents/whatsnew.md"
 
-GETTING_STARTED_DIRURL = "pages/contents/getting-started"
+GETTING_STARTED_DIRURL = "oversee/pages/contents/getting-started"
 GETTING_STARTED_OFFLINE_FILEPATH = f"{GETTING_STARTED_DIRURL}/offline.md"
 GETTING_STARTED_ONLINE_FILEPATH = f"{GETTING_STARTED_DIRURL}/online.md"
 
