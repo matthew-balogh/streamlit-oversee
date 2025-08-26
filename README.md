@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/logo_full.png" alt="Oversee Logo" width="300"/>
+  <img src="assets/logo_wide.png" alt="Oversee Logo" width="300"/>
   <div>
    <em>Set sail on data adventures,</br>without losing sight of the harbor</em>
   </div>
@@ -48,22 +48,10 @@ There are two ways to get started with Oversee: either by running it on:
 
 4. Use your favorite browser and editor to view and make changes
 
-### Running the app on Streamlit Cloud
-
-1. Visit the [demo on Streamlit Cloud](https://oversee.streamlit.app)
-2. Fork the app to your account
-   
-   Click on the `Fork` button in the top right corner. Streamlit will create a standalone and public clone of the Oversee app in your account.
-
-   > ℹ️ Streamlit automatically installs the requirements and starts your app.
-
-3. Use your favorite device and browser to interact with your Oversee workspace
-4. Use *Codespaces* to make content changes
-
-   Click on the edit button in the top right corner. Streamlit will open a Codespace to access the file structure and to edit contents of your files.
-
 ## How to use Oversee
 
 Oversee provides a framework for your research work. Once downloaded to your machine, this Oversee environment is available for you to start your work, even to customize according to your taste using the Streamlit syntax.
 
 While being a dynamic wrapper for your notebooks and research notes, you are still required to make the content changes in the file structure using an editor.
+
+You’ll find guidance both in the example manuscript and while creating a new one.

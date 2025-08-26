@@ -3,22 +3,12 @@ import os
 import json
 
 from helpers import is_demo_mode
-from helpers_storage import DIVES_FILENAME
+from helpers_storage import DIVES_FILENAME, DETAILS_FILENAME, LAB_FILENAME, STORAGE_DIRURL, NOTES_FILENAME, JOTS_FILENAME, RESULTS_FILENAME, FUTURE_DIRECTIONS_FILENAME
 
 from decorators import fallback_to_session_storage_read_in_demo, fallback_to_session_storage_write_in_demo
 from datetime import datetime
 
 DEMO_MODE = is_demo_mode()
-
-STORAGE_DIRURL = "storage"
-CASES_DIRURL = f"{STORAGE_DIRURL}/manuscripts"
-
-DETAILS_FILENAME = "details.json"
-LAB_FILENAME = "lab.py"
-NOTES_FILENAME = "notes.md"
-JOTS_FILENAME = "jots.jsonl"
-RESULTS_FILENAME = "results.md"
-FUTURE_DIRECTIONS_FILENAME = "future_directions.md"
 
 st.set_page_config(
     page_title="Manuscript Viewer",
@@ -112,7 +102,7 @@ if case_details is None:
 
 with st.container():
     with st.container(horizontal=True, vertical_alignment="center"):
-        st.button("Manuscript:", type="tertiary", icon=":material/contract:", disabled=True)
+        st.button("Manuscript:", type="tertiary", icon=":material/contract:", disabled=True, help=f":material/barcode:  {case_details['manuscript_id']}")
         st.write(case_details['manuscript_title'])
     with st.container(horizontal=True, vertical_alignment="center"):
         st.button("Research Objective:", type="tertiary", icon=":material/lab_research:", disabled=True)
