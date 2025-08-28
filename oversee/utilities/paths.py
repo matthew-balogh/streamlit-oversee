@@ -1,0 +1,16 @@
+APP_DIRURL = "oversee"
+ASSETS_DIRURL = f"{APP_DIRURL}/assets"
+STORAGE_DIRURL = "storage"
+VESSEL_DIRURL = f"{STORAGE_DIRURL}/vessel"
+
+TEMPLATES_DIRURL = f"{APP_DIRURL}/_templates"
+MANUSCRIPT_TEMPLATE_DIRURL = f"{TEMPLATES_DIRURL}/_manuscript"
+
+DIVE_FILENAME = "dive.json"
+DIVES_FILENAME = "dives.jsonl"
+DETAILS_FILENAME = "details.json"
+LAB_FILENAME = "lab.py"
+NOTES_FILENAME = "notes.md"
+JOTS_FILENAME = "jots.jsonl"
+RESULTS_FILENAME = "results.md"
+FUTURE_DIRECTIONS_FILENAME = "future_directions.md"

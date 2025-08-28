@@ -1,12 +1,13 @@
 import streamlit as st
 import os
 import json
+import uuid
 
 from streamlit_lottie import st_lottie
 
 from oversee.services.dives import save_dive, load_dive
-from oversee.utilities.helpers_storage import ASSETS_DIRURL
-from oversee.utilities.helpers import is_demo_mode, get_demo_banner_html, get_active_vessel_label_html, get_demo_mode_toast
+from oversee.utilities.paths import ASSETS_DIRURL
+from oversee.utilities.helpers import is_demo_mode, get_demo_banner_html, get_active_vessel_label_html
 
 PRIMARY_COLOR = st.get_option('theme.primaryColor')
 DEMO_MODE = is_demo_mode()
@@ -16,6 +17,11 @@ st.set_page_config(
     page_icon=f"{ASSETS_DIRURL}/logo.png",
     layout="wide"
 )
+
+if DEMO_MODE:
+    if st.session_state.get("demo_session_id", None) is None:
+        st.session_state["demo_session_id"] = f"demo_session-{str(uuid.uuid4())}"
+        st.toast("Your demo session has been reset!", icon=":material/air_freshener:")
 
 @st.dialog(" ", width="small")
 def open_anchor_down_dialog():
@@ -42,14 +48,11 @@ def open_dive_dialog():
 
         with st.container( horizontal_alignment="right"):
             if st.button("Dive in!", type="primary"):
-                if DEMO_MODE:
-                    get_demo_mode_toast()
+                if text:
+                    save_dive(text=text)
+                    st.switch_page("oversee/pages/recent_dive.py")
                 else:
-                    if text:
-                        save_dive(text)
-                        st.switch_page("oversee/pages/recent_dive.py")
-                    else:
-                        st.toast("Incomplete form!")
+                    st.toast("Incomplete form!")
 
 main = st.container(horizontal=True)
 navbar = main.container(horizontal_alignment="left", width=150)

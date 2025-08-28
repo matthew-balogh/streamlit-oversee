@@ -2,13 +2,9 @@ import streamlit as st
 import os
 import json
 
-from oversee.utilities.helpers import is_demo_mode
-from oversee.utilities.helpers_storage import ASSETS_DIRURL, DIVES_FILENAME, DETAILS_FILENAME, LAB_FILENAME, STORAGE_DIRURL, NOTES_FILENAME, JOTS_FILENAME, RESULTS_FILENAME, FUTURE_DIRECTIONS_FILENAME
-
-from oversee.utilities.decorators import fallback_to_session_storage_read_in_demo, fallback_to_session_storage_write_in_demo
 from datetime import datetime
-
-DEMO_MODE = is_demo_mode()
+from oversee.utilities.paths import ASSETS_DIRURL, DIVES_FILENAME, DETAILS_FILENAME, LAB_FILENAME, NOTES_FILENAME, JOTS_FILENAME, RESULTS_FILENAME, FUTURE_DIRECTIONS_FILENAME
+from oversee.services.cases import get_case, get_manuscript_folder
 
 st.set_page_config(
     page_title="Manuscript Viewer",
@@ -28,25 +24,14 @@ if case_id is None and "last_interacted_case_id" in st.session_state:
 if case_id is None:
     st.switch_page("oversee/pages/cases.py")
 
-CASE_DIRURL = f"{STORAGE_DIRURL}/manuscripts/{case_id}"
-DETAILS_FILEPATH = f"{CASE_DIRURL}/{DETAILS_FILENAME}"
+CASE_DIRURL = get_manuscript_folder(manuscript_id=case_id)
 DIVES_FILEPATH = f"{CASE_DIRURL}/{DIVES_FILENAME}"
+DETAILS_FILEPATH = f"{CASE_DIRURL}/{DETAILS_FILENAME}"
 LAB_FILEPATH = f"{CASE_DIRURL}/{LAB_FILENAME}"
 NOTES_FILEPATH = f"{CASE_DIRURL}/{NOTES_FILENAME}"
 JOTS_FILEPATH = f"{CASE_DIRURL}/{JOTS_FILENAME}"
 RESULTS_FILEPATH = f"{CASE_DIRURL}/{RESULTS_FILENAME}"
 FUTURE_DIRECTIONS_FILEPATH = f"{CASE_DIRURL}/{FUTURE_DIRECTIONS_FILENAME}"
-
-def get_case_details():
-    case_details = None
-    filepath = DETAILS_FILEPATH
-
-    if os.path.isfile(filepath):
-        with open(filepath, "r") as f:
-            case_details = json.load(f)
-            f.close()
-
-    return case_details
 
 def get_lab_renderer():
     with open(LAB_FILEPATH, "r") as f:
@@ -73,7 +58,6 @@ def load_dives():
             f.close()
     return dives
 
-@fallback_to_session_storage_read_in_demo(session_key=f"{case_id}.jots")
 def load_jots():
     jots = []
     if os.path.exists(JOTS_FILEPATH):
@@ -85,7 +69,6 @@ def load_jots():
 def save_jot(jot: str):
     entry = {"timestamp": datetime.now().isoformat(), "jot": jot}
 
-    @fallback_to_session_storage_write_in_demo(session_parent_key=f"{case_id}.jots", session_entry_key=entry["timestamp"], entry=entry)
     def save_jot_entry(entry):
         with open(JOTS_FILEPATH, "a") as f:
             json.dump(entry, f)
@@ -95,7 +78,7 @@ def save_jot(jot: str):
     save_jot_entry(entry)
 
 
-case_details = get_case_details()
+case_details = get_case(manuscript_id=case_id)
 
 if case_details is None:
     st.switch_page("oversee/pages/cases.py")
@@ -159,7 +142,7 @@ with st.container():
             save_jot(new_jot)
 
         if os.path.exists(JOTS_FILEPATH):
-            for jot in reversed(load_jots(JOTS_FILEPATH, case_id)):
+            for jot in reversed(load_jots()):
                 st.chat_message("user").write(jot["jot"])
 
     elif selection == 2:

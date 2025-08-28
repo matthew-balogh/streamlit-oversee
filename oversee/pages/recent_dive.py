@@ -1,10 +1,8 @@
 import streamlit as st
-import os
 
 from oversee.services.dives import load_dive, delete_dive, record_dive
-from oversee.services.cases import new_case, get_case
-
-from oversee.utilities.helpers_storage import ASSETS_DIRURL, STORAGE_DIRURL, DIVES_FILENAME, MANUSCRIPTS_DIRURL
+from oversee.services.cases import new_case, get_cases
+from oversee.utilities.paths import ASSETS_DIRURL
 
 st.set_page_config(
     page_title="Your recent dive...",
@@ -26,7 +24,7 @@ def new_case_dialog(dive):
             if submitted:
                 if (manuscript_title is not None) and (len(manuscript_title) > 0) and (research_objective is not None) and (len(research_objective) > 0):
                     case_id = new_case(manuscript_title, research_objective)
-                    record_dive(f"{STORAGE_DIRURL}/manuscripts/{case_id}/{DIVES_FILENAME}", dive)
+                    record_dive(manuscript_id=case_id, dive=dive)
                     delete_dive()
                     st.switch_page("oversee/pages/cases.py")
                 else:
@@ -40,13 +38,7 @@ def attach_to_case_dialog(dive):
     if reversed_order_toggle:
         reversed_order = True
     
-    case_list = []
-    for case_id in os.listdir(MANUSCRIPTS_DIRURL):
-        case = get_case(case_id)
-        if case is not None:
-            case_list.append(case)
-    case_list = sorted(case_list, key=lambda x: x["creation_timestamp"], reverse=reversed_order)
-
+    case_list = sorted(get_cases(), key=lambda x: x["creation_timestamp"], reverse=reversed_order)
     selection = st.pills("Selected Manuscript", case_list, format_func=lambda option: f":material/contract: {option['manuscript_title']}", selection_mode="single", label_visibility="hidden")
 
     st.container(height=5, border=False)
@@ -54,7 +46,7 @@ def attach_to_case_dialog(dive):
     with st.container(horizontal=True, horizontal_alignment="right"):
         if st.button("Attach to Manuscript", type="primary", disabled=(not selection)):
             case_id = selection["manuscript_id"]
-            record_dive(f"{STORAGE_DIRURL}/manuscripts/{case_id}/{DIVES_FILENAME}", dive)
+            record_dive(manuscript_id=case_id, dive=dive)
             delete_dive()
             st.switch_page("oversee/pages/cases.py")
 
