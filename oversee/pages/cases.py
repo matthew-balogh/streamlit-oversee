@@ -1,15 +1,7 @@
 import streamlit as st
-import os
 
-from oversee.services.cases import new_case, get_case
-from oversee.utilities.helpers import is_demo_mode, get_demo_mode_toast
-from oversee.utilities.helpers_storage import ASSETS_DIRURL
-
-DEMO_MODE = is_demo_mode()
-
-DETAILS_FILENAME = "details.json"
-STORAGE_DIRURL = "storage"
-CASES_DIRURL = f"{STORAGE_DIRURL}/manuscripts"
+from oversee.services.cases import new_case, get_cases
+from oversee.utilities.paths import ASSETS_DIRURL
 
 st.set_page_config(
     page_title="Manuscripts",
@@ -55,10 +47,7 @@ def new_case_dialog():
 with st.container(horizontal=True, vertical_alignment="center"):
     st.header(":material/home_storage: Manuscripts")
     if st.button("Write new Manuscript", key="btn:newManuscript", icon=":material/history_edu:", type="primary"):
-        if DEMO_MODE:
-            get_demo_mode_toast()
-        else:
-            new_case_dialog()
+        new_case_dialog()
 
 reversed_order = False
 reversed_order_toggle = st.toggle("Recently created first")
@@ -68,15 +57,7 @@ st.html("<div style='margin-bottom: .75rem'></div>")
 if reversed_order_toggle:
     reversed_order = True
 
-case_list = []
-
-for case_id in os.listdir(CASES_DIRURL):
-    case = get_case(case_id)
-
-    if case is not None:
-        case_list.append(case)
-
-case_list = sorted(case_list, key=lambda x: x["creation_timestamp"], reverse=reversed_order)
+case_list = sorted(get_cases(), key=lambda x: x["creation_timestamp"], reverse=reversed_order)
 
 for case in case_list:
     create_case_list_elem(case)

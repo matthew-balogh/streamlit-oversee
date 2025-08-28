@@ -2,17 +2,15 @@ import os
 import shutil
 import json
 
+from pathlib import Path
 from datetime import datetime
-from oversee.utilities.helpers_storage import APP_DIRURL, MANUSCRIPTS_DIRURL, DETAILS_FILENAME, LAB_FILENAME
-
-TEMPLATES_DIRURL = f"{APP_DIRURL}/_templates"
-MANUSCRIPT_TEMPLATE_DIRURL = f"{TEMPLATES_DIRURL}/_manuscript"
+from oversee.utilities.paths import MANUSCRIPT_TEMPLATE_DIRURL, DETAILS_FILENAME, LAB_FILENAME
 
 MANUSCRIPT_ID_PLACEHOLDER = "<OVERSEE_MANUSCRIPT_ID_PLACEHOLDER>"
 
-def create_manuscript_from_template(manuscript_id: str, title: str, objective: str):
+def create_manuscript_from_template(manuscript_folder: Path, manuscript_id: str, title: str, objective: str):
     frm = MANUSCRIPT_TEMPLATE_DIRURL
-    to = f"{MANUSCRIPTS_DIRURL}/{manuscript_id}"
+    to = manuscript_folder
 
     if not os.path.exists(frm):
         print("Cannot copy. The template resource \"{frm}\" does not exist.")
@@ -21,7 +19,7 @@ def create_manuscript_from_template(manuscript_id: str, title: str, objective: s
     if not os.path.exists(to):
         shutil.copytree(frm, to)
 
-        lab_filepath = f"{MANUSCRIPTS_DIRURL}/{manuscript_id}/{LAB_FILENAME}"
+        lab_filepath = f"{to}/{LAB_FILENAME}"
         if os.path.exists(lab_filepath):
             with open(lab_filepath, "r") as f:
                 data = f.read()
@@ -31,7 +29,7 @@ def create_manuscript_from_template(manuscript_id: str, title: str, objective: s
                 f.write(data)
                 f.close()
 
-        details_filepath = f"{MANUSCRIPTS_DIRURL}/{manuscript_id}/{DETAILS_FILENAME}"
+        details_filepath = f"{to}/{DETAILS_FILENAME}"
         if os.path.exists(details_filepath):
             with open(details_filepath, "r") as f:
                 data = json.load(f)

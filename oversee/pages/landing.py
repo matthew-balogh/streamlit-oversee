@@ -1,6 +1,6 @@
 import streamlit as st
 
-from oversee.utilities.helpers_storage import ASSETS_DIRURL
+from oversee.utilities.paths import ASSETS_DIRURL
 
 st.set_page_config(
     page_title="Come Aboard!",

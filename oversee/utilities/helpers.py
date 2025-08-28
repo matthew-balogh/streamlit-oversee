@@ -2,10 +2,9 @@ import streamlit as st
 import os
 import json
 
-STORAGE_DIRURL = "storage"
-VESSEL_DIRURL = f"{STORAGE_DIRURL}/vessel"
+from oversee.utilities.paths import VESSEL_DIRURL
 
-DEMO_MODE_MESSAGE = "Not available in demo mode!"
+PRIMARY_COLOR = st.get_option('theme.primaryColor')
 
 def is_demo_mode() -> bool:
     if os.path.exists(".streamlit/secrets.toml"):
@@ -37,11 +36,6 @@ def get_demo_banner_html():
 
 <a href="/" target="_self" id="oversee-demo-banner"><b>Demo mode:</b> Visit <b>Help</b> or <u>click here</u> to get started.</a>
 """
-
-def get_demo_mode_toast():
-    return st.toast(DEMO_MODE_MESSAGE, icon=":material/no_sim:")
-
-PRIMARY_COLOR = st.get_option('theme.primaryColor')
 
 def get_vessel_title():
     DETAILS_FILEPATH = f"{VESSEL_DIRURL}/details.json"
