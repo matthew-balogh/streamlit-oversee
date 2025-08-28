@@ -74,7 +74,7 @@ def with_manuscript_folder():
         return wrapper
     return decorator
 
-def with_manuscript_folders():
+def with_manuscript_parent_folders():
     def decorator(func):
         @wraps(func)
         @with_demo_session_id()
@@ -86,9 +86,9 @@ def with_manuscript_folders():
                 parents.append(STORAGE_DIRURL)
             else: parents.append(STORAGE_DIRURL)
 
-            manuscript_folders = list(map(lambda x: Path(f"{x}/manuscripts"), parents))
+            manuscript_parent_folders = list(map(lambda x: Path(f"{x}/manuscripts"), parents))
 
-            return func(manuscript_folders=manuscript_folders, *args, **kwargs)
+            return func(manuscript_parent_folders=manuscript_parent_folders, *args, **kwargs)
         return wrapper
     return decorator
 
