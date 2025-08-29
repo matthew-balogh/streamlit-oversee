@@ -83,6 +83,19 @@ case_details = get_case(manuscript_id=case_id)
 if case_details is None:
     st.switch_page("oversee/pages/cases.py")
 
+@st.fragment
+def lab_section_fragment():
+    with st.container(gap="large", horizontal_alignment="center"):
+        if os.path.exists(LAB_FILEPATH):
+            renderer = get_lab_renderer()
+            renderer()
+        else:
+            st.error(f"The '{LAB_FILENAME}' file is missing from storage", icon=":material/dangerous:")
+            st.stop()
+        
+        if st.button("Reload Lab content", icon=":material/refresh:", type="tertiary"):
+            st.rerun(scope="fragment")
+
 with st.container():
     with st.container(horizontal=True, vertical_alignment="center"):
         st.button("Manuscript:", type="tertiary", icon=":material/contract:", disabled=True, help=f":material/barcode:  {case_details['manuscript_id']}")
@@ -121,12 +134,7 @@ with st.container():
     )
 
     if selection == 0:
-        if os.path.exists(LAB_FILEPATH):
-            renderer = get_lab_renderer()
-            renderer()
-        else:
-            st.error(f"The '{LAB_FILENAME}' file is missing from storage", icon=":material/dangerous:")
-            st.stop()
+        lab_section_fragment()
 
     elif selection == 1:
         new_jot = st.chat_input("What to jot down?")
